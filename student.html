@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ch">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>乌镇中学</title>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+<script>
+            $(function() {
+                $(".meun-item").click(function() {
+                    $(".meun-item").removeClass("meun-item-active");
+                    $(this).addClass("meun-item-active");
+                    var itmeObj = $(".meun-item").find("img");
+                    itmeObj.each(function() {
+                        var items = $(this).attr("src");
+                        items = items.replace("_grey.png", ".png");
+                        items = items.replace(".png", "_grey.png")
+                        $(this).attr("src", items);
+                    });
+                    var attrObj = $(this).find("img").attr("src");
+                    attrObj = attrObj.replace("_grey.png", ".png");
+                    $(this).find("img").attr("src", attrObj);
+                });
+            })
+</script>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/slide.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/flat-ui.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.nouislider.css">
+        <link rel="shortcut icon" href="images/favicon.ico" />
+</head>
+
+    <body>
+
+        <div id="wrap">
+                <!-- 顶端学校显示 -->
+                <img src = "./images/index.png" width="60" height="60"></img>
+                <span style="font-size:25px">桐乡乌镇中学</span>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="padding-top: 5px;padding-right: 10px"><a href="">admin</a></li>
+                    <li style="padding-top: 5px;padding-right: 10px"><a href=""><span class="glyphicon glyphicon-log-out"></span></a></li>
+                </ul>
+
+            <!-- 左侧菜单栏目块 -->
+            <div class="leftMeun" id="leftMeun">
+                <div class="meun-title">我的相关</div>
+                <div class="meun-item meun-item-active" href="#sour" aria-controls="sour" role="tab" data-toggle="tab"><img src="images/icon_source.png">学生个人信息</div>
+                <div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img src="images/icon_chara_grey.png">学生自评评价</div>
+                <div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img src="images/icon_user_grey.png">学生互评评价</div>
+                <div class="meun-item" href="#chan" aria-controls="chan" role="tab" data-toggle="tab"><img src="images/icon_change_grey.png">评价结果</div>
+            </div>
+
+
+            <!-- 右侧具体内容栏目 -->
+            <div id="rightContent">
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!-- 学生分班模块 -->
+                    <div role="tabpanel" class="tab-pane active" id="sour">
+                        <div class="check-div">
+                                <button type="button" class="btn btn-primary btn-sm active">编辑</button>
+                                <button type="button" class="btn btn-success btn-sm" disabled="disabled">保存</button>
+                        </div>
+                        <div class="data-div">
+                            <div class="row tableHeader">
+                                <span>学生个人基本信息</span>
+                            </div>
+                            
+                            <div class="tablebody">
+                                <div class="row">
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</span>
+                                          <input type="text" class="form-control"  readonly="readonly" value="陆佳金" style="color: black" >
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+                                          <input type="text" class="form-control"  readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon" >性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</span>
+                                          <input type="text" class="form-control" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族</span>
+                                          <input type="text" class="form-control" >
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">出生年月</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">身份证号</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">班&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">籍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;贯</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">家长姓名</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">家长号码</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4" style="padding-top: 15px">
+                                        <div class="input-group">
+                                          <span class="input-group-addon">家庭住址</span>
+                                          <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4" >
+                                        <button type="button" class="btn btn-success btn-lg">上传奖状</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        奖项名称
+                                    </div>
+                                    <div class="col-xs-3">
+                                        图片地址
+                                    </div>
+                                    <div class="col-xs-3">
+                                        上传年份
+                                    </div>
+                                    <div class="col-xs-3">
+                                        学期
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 学生自我评价模块 -->
+                    <div role="tabpanel" class="tab-pane" id="char">
+                       <div class="check-div">
+                            班级列表:
+                            <select class="form-control">
+                            </select>
+                            <button class="btn btn-white btn-xs">去评价</button>           
+                        </div>
+                        <div class="data-div">
+                            <div class="row tableHeader">
+
+                                    <div class="col-xs-2">
+                                        学生姓名
+                                    </div>
+                                    <div class="col-xs-3">
+                                        品德表现(25分)
+                                    </div>
+                                    <div class="col-xs-3">
+                                        运动健康(25分)
+                                    </div>
+                                    <div class="col-xs-2">
+                                        艺术素养(25分)
+                                    </div>
+                                    <div class="col-xs-2">
+                                        创新实践(25分)
+                                    </div>
+
+                            </div>
+
+                            <div class="tablebody">
+                                
+
+                                <div class="row">
+                                    <div class="col-xs-2 ">
+                                        陆佳金
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+
+            <!--学生互评评价模块-->
+            <div role="tabpanel" class="tab-pane" id="user">
+                <div class="check-div form-inline">
+                    班级列表:
+                    <select class="form-control">
+                    </select>
+                    <button class="btn btn-white btn-xs ">去评价</button>
+                </div>
+                <div class="data-div">
+                    <div class="row tableHeader">
+                                    <div class="col-xs-2">
+                                        学生姓名
+                                    </div>
+                                    <div class="col-xs-3">
+                                        品德表现(25分)
+                                    </div>
+                                    <div class="col-xs-3">
+                                        运动健康(25分)
+                                    </div>
+                                    <div class="col-xs-2">
+                                        艺术素养(25分)
+                                    </div>
+                                    <div class="col-xs-2">
+                                        创新实践(25分)
+                                    </div>
+                    </div>
+                        <div class="tablebody">
+                                <div class="row">
+                                    <div class="col-xs-2 ">
+                                        陆佳金
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <select style="width: 100px">
+                                        </select>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+            </div>
+
+            <!-- 评价结果模块 -->
+            <div role="tabpanel" class="tab-pane" id="chan">
+                        <div class="check-div">
+                            筛选条件:
+                            <select class="form-control">
+                                <option>初一(1)班</option>
+                                <option>初一(2)班</option>
+                                <option>初一(3)班</option>
+                            </select>
+                            <select class="form-control">
+                                <option>2018</option>
+                                <option>2017</option>
+                                <option>2016</option>
+                            </select>
+                            <select class="form-control">
+                                <option>第一学期</option>
+                                <option>第二学期</option>
+                            </select>
+                            <button class="btn btn-white btn-xs ">查 询</button>
+                            <button class="btn btn-white btn-xs ">三年成绩导出</button>
+                            <button class="btn btn-white btn-xs ">导出Excel</button>
+                        </div>
+                        <div class="data-div">
+                            <div class="row tableHeader">
+                                <div class="col-xs-2">
+                                    学号
+                                </div>
+                                <div class="col-xs-2">
+                                    姓名
+                                </div>
+                                <div class="col-xs-2">
+                                    自评
+                                </div>
+                                <div class="col-xs-2">
+                                    师评
+                                </div>
+                                <div class="col-xs-2">
+                                    互评
+                                </div>
+                                <div class="col-xs-2">
+                                    总分
+                                </div>
+                            </div>
+                            <div class="tablebody" id="addJS">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        WZ17040
+                                    </div>
+                                    <div class="col-xs-2">
+                                        吴佳锋
+                                    </div>
+                                    <div class="col-xs-2">
+                                        0
+                                    </div>
+                                    <div class="col-xs-2">
+                                        0
+                                    </div>
+                                    <div class="col-xs-2">
+                                        0
+                                    </div>
+                                    <div class="col-xs-2">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

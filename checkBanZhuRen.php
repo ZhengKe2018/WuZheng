@@ -1,7 +1,7 @@
 <?php
 require("connect.php");
 
-$sql = "select * from wzzx_teacher";
+$sql = "select * from wzzx_bzr";
 $result = mysql_query($sql);
 
 $rows = array();
