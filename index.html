@@ -303,6 +303,27 @@
                 }); 
 
         });
+
+        function importfile(file) {
+            var fileObj = file.files[0];
+
+            var formData=new FormData();
+            formData.append("file",fileObj);
+            formData.append("name",fileObj.name);
+
+            $.ajax({
+                    type: 'post',
+                    url:"import_excel.php",
+                    async:true,
+                    data:formData,
+                    processData:false,
+                    contentType:false,
+                    success: function (data) { 
+                        alert('数据导入成功'); 
+                    }
+                });
+
+        }
 </script>
 
 <script>
@@ -569,7 +590,9 @@
 
                        <div class="check-div">
                             <button class="btn btn-yellow btn-xs" id="checkTeacher">查看数据</button>
-                            <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addChar">添加数据</button>      
+                            <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addChar">添加数据</button>
+                            <button class="btn btn-yellow btn-xs" onclick="$('#FileInput')[0].click()">导入Excel</button>
+                            <input type="file" id="FileInput" hidden="hidden" style="display: none;" onchange="importfile(this)" />    
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
