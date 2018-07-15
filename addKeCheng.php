@@ -1,9 +1,8 @@
 <?php
 require("connect.php");
 $MC = $_GET['MC'];
-$BZ = $_GET['BZ'];
 
-$sql = "insert into wzzx_kc(MC,BZ) values('$MC','$BZ')";
+$sql = "insert into wzzx_kc(MC) values('$MC')";
 mysql_query($sql);
 
 if(mysql_affected_rows() > 0)

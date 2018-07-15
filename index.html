@@ -5,7 +5,6 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <meta name="format-detection" content="telephone=no">
         <title>乌镇中学</title>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -53,13 +52,12 @@
 
             $('#saveKC').click(function(){
                 var $MC = $("#KeCheng_MC").val();
-                var $BZ = $("#KeCheng_BZ").val();
 
                 $.ajax({
                     type: 'get',
                     url:"addKeCheng.php",
                     async:true,
-                    data:"MC="+$MC+"&BZ="+$BZ,
+                    data:"MC="+$MC,
                     success: function (data) { //返回json结果
                         alert('添加成功');                          
                     }
@@ -302,6 +300,11 @@
                       modal.find('.content').val(modalId);         
                 }); 
 
+            //输出Excel表格
+            $("#outToExcel").click(function(){
+                window.location.href = 'output_excel.php?name=zhangsan';
+            });
+
         });
 
         function importfile(file) {
@@ -374,8 +377,8 @@
                 <div class="meun-item meun-item-active" href="#sour" aria-controls="sour" role="tab" data-toggle="tab"><img src="images/icon_source.png">学生分班</div>
                 <div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img src="images/icon_chara_grey.png">教师任课管理</div>
                 <div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img src="images/icon_user_grey.png">学生综合素质管理</div>
-                <div class="meun-item" href="#chan" aria-controls="chan" role="tab" data-toggle="tab"><img src="images/icon_change_grey.png">课程管理</div>
-                <div class="meun-item" href="#jiangxiang" aria-controls="chan" role="tab" data-toggle="tab"><img src="images/icon_change_grey.png">奖项</div>
+                <div class="meun-item" href="#subject" aria-controls="subject" role="tab" data-toggle="tab"><img src="images/icon_change_grey.png">课程管理</div>
+                <div class="meun-item" href="#jiangxiang" aria-controls="chan" role="tab" data-toggle="tab"><img src="images/icon_char_grey.png">奖项</div>
 
                 <div class="meun-title">账号管理</div>
                 <div class="meun-item" href="#scho" aria-controls="scho" role="tab" data-toggle="tab"><img src="images/icon_house_grey.png">学生账号管理</div>
@@ -388,10 +391,7 @@
                 <div class="meun-item" href="#regu" aria-controls="regu" role="tab" data-toggle="tab"><img src="images/icon_rule_grey.png">互评学生配置</div>
                 <div class="meun-item" href="#stud" aria-controls="stud" role="tab" data-toggle="tab"><img src="images/icon_card_grey.png">评分时间</div>
                 <div class="meun-item" href="#sitt" aria-controls="sitt" role="tab" data-toggle="tab"><img src="images/icon_char_grey.png">评分占比配置</div>
-                <div class="meun-item" href="#sitt" aria-controls="sitt" role="tab" data-toggle="tab"><img src="images/icon_char_grey.png">系统日志记录</div>
 
-                <div class="meun-title">导出管理</div>
-                <div class="meun-item" href="#scho" aria-controls="scho" role="tab" data-toggle="tab"><img src="images/icon_house_grey.png">导出</div>
             </div>
 
 
@@ -592,6 +592,8 @@
                             <button class="btn btn-yellow btn-xs" id="checkTeacher">查看数据</button>
                             <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addChar">添加数据</button>
                             <button class="btn btn-yellow btn-xs" onclick="$('#FileInput')[0].click()">导入Excel</button>
+                            <button class="btn btn-yellow btn-xs" id="outToExcel">导出Excel</button>
+                            <!--a href="./output_excel.php">导出Excel</a-->
                             <input type="file" id="FileInput" hidden="hidden" style="display: none;" onchange="importfile(this)" />    
                         </div>
                         <div class="data-div">
@@ -1035,7 +1037,7 @@
             </div>
 
             <!-- 课程管理模块 -->
-            <div role="tabpanel" class="tab-pane" id="chan">
+            <div role="tabpanel" class="tab-pane" id="subject">
                         <div class="check-div">
                             <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addKeCheng">添加</button>
                         </div>
@@ -1044,26 +1046,66 @@
                                 <div class="col-xs-3 ">
                                     课程名称
                                 </div>
-                                <div class="col-xs-6">
-                                    备注
-                                </div>
-                                <div class="col-xs-3">
+                                <div class="col-xs-3 col-xs-offset-6">
                                     操作
                                 </div>
                             </div>
-                            <div class="tablebody" id="addJS">
-                                <div class="row" id="one">
+                            <div class="tablebody">
+                                <div class="row">
                                     <div class="col-xs-3">
                                         语文
                                     </div>
-                                    <div class="col-xs-6">
-                                    <span></span>
+                                    <div class="col-xs-3 col-xs-offset-6">
+                                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
                                     </div>
-                                <div class="col-xs-3">
-                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
-                                    <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        数学
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-6">
+                                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        英语
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-6">
+                                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        科学
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-6">
+                                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        社会思品
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-6">
+                                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        体育
+                                    </div>
+                                    <div class="col-xs-3 col-xs-offset-6">
+                                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#changeChar">修改</button>
+                                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteChar">删除</button>
+                                    </div>
+                                </div>
+
                             </div>
                 <!--页码块-->
                 <footer class="footer">
@@ -1102,12 +1144,6 @@
                                                     <label for="sName" class="col-xs-3 control-label">课程：</label>
                                                     <div class="col-xs-8 ">
                                                         <input type="email" class="form-control input-sm duiqi" id="KeCheng_MC" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="sLink" class="col-xs-3 control-label">备注：</label>
-                                                    <div class="col-xs-8 ">
-                                                        <input type="" class="form-control input-sm duiqi" id="KeCheng_BZ" placeholder="">
                                                     </div>
                                                 </div>
                                             </form>
