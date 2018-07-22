@@ -2,7 +2,7 @@
 require("connect.php");
 $BZRID = $_GET['BZRID'];
 
-$sql = "delete from wzzx_BZR where id='$BZRID'";
+$sql = "delete from wzzx_bzr where id=$BZRID";
 mysql_query($sql);
 
 if(mysql_affected_rows() > 0)

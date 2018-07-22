@@ -9,6 +9,7 @@
         <title>乌镇中学</title>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="dist/js/bootstrap-select.js"></script>
 
 <script>
             $(function() {
@@ -56,8 +57,34 @@
 
 <script>
     $(function(){
+
+            //编辑学生基本信息
+            $("#editXSXX").click(function(){
+                    $("#XSMZ").attr("readonly",false);
+                    $("#XSCS").attr("readonly",false);                   
+                    $("#XSSFZ").attr("readonly",false);
+                    $("#XSJG").attr("readonly",false);
+                    $("#XSJZXM").attr("readonly",false);
+                    $("#XSJZHM").attr("readonly",false);
+                    $("#XSJTZZ").attr("readonly",false);                   
+            });
+
+            //保存学生基本信息
+            $("#saveXSXX").click(function(){
+                    var $XSXH = $("#XSXH").val();
+                    var $XSMZ = $("#XSMZ").val();
+                    var $XSCS = $("#XSCS").val();
+                    var $XSSFZ = $("#XSSFZ").val();
+                    var $XSJG = $("#XSJG").val();
+                    var $XSJZXM = $("#XSJZXM").val();
+                    var $XSJZHM = $("#XSJZHM").val();
+                    var $XSJTZZ = $("#XSJTZZ").val();
+
+                    alert("保存成功");
+            });
+
+            //保存奖状信息
             $("#saveJZ").click(function(){
- //               alert($("#JZName").val()+$("#picAddr").val());
                 var myDate = new Date();
                 var $year = myDate.getFullYear();
                 var $month = myDate.getMonth()+1;
@@ -68,18 +95,34 @@
                     $CurXQ = "第1学期";
                 var $PicLink = $("#picAddr").val();
 
-//                alert($("#JZName").val());
-
                 $.ajax({
                     type: 'get',
                     url:"save_JZInfo.php",
                     async:true,
-                    data:"JZName="+$("#JZName").val()+"&PicLink="+$PicLink,
+                    data:"JZName="+$("#JZName").val()+"&PicLink="+$PicLink+"&year="+$year+"&XQ="+$CurXQ,
                     success: function (data) {
                         var $newJZ = $('<div class="row"><div class="col-xs-3">'+$("#JZName").val()+'</div><div class="col-xs-3"><a href='+$PicLink+' target="_blank">查看图片</a></div><div class="col-xs-3">'+$year+'</div><div class="col-xs-3">'+$CurXQ+'</div></div>');
                             $("#studentInfo").append($newJZ);
                     }
                 });               
+            });
+
+            //查看奖状信息
+            $("#checkJZ").click(function(){
+                $.ajax({
+                    type: 'get',
+                    url:"checkJZ.php",
+                    async:true,
+                    data:"studentName=admin",
+                    success: function (data) {
+                        var obj = JSON.parse(data);
+                        for(var index=0;index<obj.length;index++)
+                        {
+                            var $newJZ = $('<div class="row"><div class="col-xs-3">'+obj[index]['JZName']+'</div><div class="col-xs-3"><a href='+obj[index]['PicLink']+' target="_blank">查看图片</a></div><div class="col-xs-3">'+obj[index]['year']+'</div><div class="col-xs-3">'+obj[index]['XQ']+'</div></div>');
+                            $("#studentInfo").append($newJZ);
+                        }     
+                    }
+                });                   
             });
     });
 </script>
@@ -124,8 +167,10 @@
                     <!-- 学生分班模块 -->
                     <div role="tabpanel" class="tab-pane active" id="sour">
                         <div class="check-div">
-                                <button type="button" class="btn btn-primary btn-sm active">编辑</button>
-                                <button type="button" class="btn btn-success btn-sm" disabled="disabled">保存</button>
+                                <button class="btn btn-yellow btn-xs" id="editXSXX">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编 辑</button>
+                                <button class="btn btn-yellow btn-xs" id="saveXSXX">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>保 存</button>
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
@@ -137,19 +182,19 @@
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</span>
-                                          <input type="text" class="form-control"  readonly="readonly" value="陆佳金" style="color: black" >
+                                          <input type="text" class="form-control"  readonly="readonly" value="WZ17040" style="color: black;padding-left: 10px" id="XSXH">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
-                                          <input type="text" class="form-control"  readonly="readonly">
+                                          <input type="text" class="form-control"  readonly="readonly" value="陆佳金" style="color: black;padding-left: 10px" id="XSXM">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon" >性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</span>
-                                          <input type="text" class="form-control" >
+                                          <input type="text" class="form-control" readonly="readonly" value="男" style="color: black;padding-left: 10px" id="XSXB">
                                         </div>
                                     </div>
                                 </div>
@@ -158,19 +203,19 @@
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族</span>
-                                          <input type="text" class="form-control" >
+                                          <input type="text" class="form-control" readonly="readonly" value="汉族" style="color: black;padding-left: 10px" id="XSMZ">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">出生年月</span>
-                                          <input type="text" class="form-control">
+                                          <input type="date" class="form-control" readonly="readonly" id="XSCS">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">身份证号</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly" id="XSSFZ">
                                         </div>
                                     </div>
                                 </div>
@@ -179,19 +224,19 @@
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">班&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly" id="XSBJ">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">籍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;贯</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly" id="XSJG">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly">
                                         </div>
                                     </div>
                                 </div>
@@ -200,26 +245,29 @@
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">家长姓名</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly" id="XSJZXM">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">家长号码</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly" id="XSJZHM">
                                         </div>
                                     </div>
                                     <div class="col-xs-4" style="padding-top: 15px">
                                         <div class="input-group">
                                           <span class="input-group-addon">家庭住址</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control" readonly="readonly" id="XSJTZZ">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-xs-4" >
-                                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addJiangZhuang">上传奖状</button>
+                                        <button type="button" class="btn btn-yellow btn-xs" id="checkJZ">
+                                        <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>查 看</button>
+                                        <button type="button" class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addJiangZhuang">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添 加</button>
                                     </div>
                                 </div>
 
@@ -237,8 +285,6 @@
                                         学期
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -254,15 +300,15 @@
                                         <div class="container-fluid">
                                             <form class="form-horizontal">
                                                 <div class="form-group">
-                                                    <label for="sLink" class="col-xs-3 control-label">奖项名称：</label>
+                                                    <label class="col-xs-3 control-label">奖项名称：</label>
                                                     <div class="col-xs-8 ">
                                                         <input type="text" class="form-control input-sm duiqi" id="JZName">
                                                     </div>
                                                 </div>
                                                 <div class="form-group ">
-                                                    <label for="sName" class="col-xs-3 control-label">奖项图片：</label>
+                                                    <label class="col-xs-3 control-label">奖项图片：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="file" id="FileInput" onchange="importfile(this)" />
+                                                        <input type="file" id="FileInput"  onchange="importfile(this)" />
                                                         <input type="text" id="picAddr" readonly="readonly" hidden="hidden"/>
                                                     </div>
                                                 </div>    
@@ -279,18 +325,16 @@
 
                     </div>
 
-                    <!-- 学生自我评价模块 -->
+                    <!-- 学生自评评价模块 -->
                     <div role="tabpanel" class="tab-pane" id="char">
                        <div class="check-div">
-                            班级列表:
-                            <select class="form-control">
-                            </select>
-                            <button class="btn btn-white btn-xs">去评价</button>           
+                            <button class="btn btn-white btn-xs">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>保 存</button>           
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
 
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-1">
                                         学生姓名
                                     </div>
                                     <div class="col-xs-3">
@@ -299,7 +343,7 @@
                                     <div class="col-xs-3">
                                         运动健康(25分)
                                     </div>
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-3">
                                         艺术素养(25分)
                                     </div>
                                     <div class="col-xs-2">
@@ -309,26 +353,24 @@
                             </div>
 
                             <div class="tablebody">
-                                
-
                                 <div class="row">
-                                    <div class="col-xs-2 ">
+                                    <div class="col-xs-1">
                                         陆佳金
                                     </div>
                                     <div class="col-xs-3">
-                                        <select style="width: 100px">
+                                        <select class="duiqi" style="height: 30px">
                                         </select>
                                     </div>
                                     <div class="col-xs-3">
-                                        <select style="width: 100px">
+                                        <select class="duiqi" style="height: 30px">
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <select class="duiqi" style="height: 30px">
                                         </select>
                                     </div>
                                     <div class="col-xs-2">
-                                        <select style="width: 100px">
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <select style="width: 100px">
+                                        <select class="duiqi" style="height: 30px">
                                         </select>
                                     </div>
                                 </div>
@@ -342,11 +384,12 @@
                     班级列表:
                     <select class="form-control">
                     </select>
-                    <button class="btn btn-white btn-xs ">去评价</button>
+                    <button class="btn btn-white btn-xs ">
+                        <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>去评价</button>
                 </div>
                 <div class="data-div">
                     <div class="row tableHeader">
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-1">
                                         学生姓名
                                     </div>
                                     <div class="col-xs-3">
@@ -355,7 +398,7 @@
                                     <div class="col-xs-3">
                                         运动健康(25分)
                                     </div>
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-3">
                                         艺术素养(25分)
                                     </div>
                                     <div class="col-xs-2">
@@ -363,27 +406,6 @@
                                     </div>
                     </div>
                         <div class="tablebody">
-                                <div class="row">
-                                    <div class="col-xs-2 ">
-                                        陆佳金
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <select style="width: 100px">
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <select style="width: 100px">
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <select style="width: 100px">
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <select style="width: 100px">
-                                        </select>
-                                    </div>
-                                </div>
                         </div>
                 </div>
             </div>
@@ -406,9 +428,12 @@
                                 <option>第一学期</option>
                                 <option>第二学期</option>
                             </select>
-                            <button class="btn btn-white btn-xs ">查 询</button>
-                            <button class="btn btn-white btn-xs ">三年成绩导出</button>
-                            <button class="btn btn-white btn-xs ">导出Excel</button>
+                            <button class="btn btn-white btn-xs ">
+                                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>查 询</button>
+                            <button class="btn btn-white btn-xs ">
+                            <span class="glyphicon glyphicon-export" aria-hidden="true"></span>三年成绩导出</button>
+                            <button class="btn btn-white btn-xs ">
+                                <span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出Excel</button>
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
