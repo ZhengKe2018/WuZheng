@@ -15,39 +15,8 @@
         <script src="js/action-kecheng.js"></script>
         <script src="js/action-pingfenxiang.js"></script>
         <script src="js/action-stuJZ.js"></script>
-        <script src="js/action-HPXZ.js"></script>
-
-    <script>       
-        $(function() {
-            //输出Excel表格
-            $("#outToExcel").click(function(){
-                window.location.href = 'output_excel.php?name=zhangsan';
-            });
-
-        });
-
-        //导入Excel表格
-        function importfile(file) {
-            var fileObj = file.files[0];
-
-            var formData=new FormData();
-            formData.append("file",fileObj);
-            formData.append("name",fileObj.name);
-
-            $.ajax({
-                    type: 'post',
-                    url:"import_excel.php",
-                    async:true,
-                    data:formData,
-                    processData:false,
-                    contentType:false,
-                    success: function (data) { 
-                        alert('数据导入成功'); 
-                    }
-               });
-        }
-</script>
-
+        <script src="js/action-hpxz.js"></script>
+        <script src="js/import-excel.js"></script>
 <script>
             $(function() {
                 $(".meun-item").click(function() {
@@ -81,7 +50,7 @@
 
         <div id="wrap">
                 <!-- 顶端学校显示 -->
-                <img src = "images/index.png" width="60" height="60"></img>
+                <img src = "images/index.png" width="60" height="60">
                 <span style="font-size:25px">桐乡乌镇中学</span>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -155,14 +124,6 @@
                                     页
                                 </li>
                                 <li class="gray" id="BZR_total_pages">       
-                                </li>
-                                <li>
-                                    <i class="glyphicon glyphicon-menu-left">
-                                    </i>
-                                </li>
-                                <li>
-                                    <i class="glyphicon glyphicon-menu-right">
-                                    </i>
                                 </li>
                             </ul>
                         </footer>
@@ -267,9 +228,7 @@
                                         <button type="button" class="btn btn-xs btn-green" id="updateBZR">保 存</button>
                                     </div>
                                 </div>
-                                <!-- /.modal-content -->
                             </div>
-                            <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
                         <!--弹出删除班主任窗口-->
@@ -313,12 +272,12 @@
                             <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addChar">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
                             </button>
-                            <button class="btn btn-yellow btn-xs" onclick="$('#FileInput')[0].click()">
+                            <button class="btn btn-yellow btn-xs" onclick="$('#import_rk_teacher')[0].click()">
                                 <span class="glyphicon glyphicon-import" aria-hidden="true"></span>导入Excel</button>
-                            <button class="btn btn-yellow btn-xs" id="outToExcel">
+                            <button class="btn btn-yellow btn-xs" id="output_rk_teacher">
                             <span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出Excel</button>
                             <!--a href="./output_excel.php">导出Excel</a-->
-                            <input type="file" id="FileInput" hidden="hidden" style="display: none;" onchange="importfile(this)" />    
+                            <input type="file" id="import_rk_teacher" hidden="hidden" style="display: none;" />    
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
@@ -348,14 +307,6 @@
                         </li>
                         <li class="gray" id="total_pages">
                             
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-left last_page_teacher">
-                            </i>
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-right next_page_teacher">
-                            </i>
                         </li>
                     </ul>
                     </footer>
@@ -549,15 +500,7 @@
                             页
                         </li>
                         <li class="gray">
-                            共页
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-left">
-                            </i>
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-right">
-                            </i>
+                            
                         </li>
                     </ul>
                 </footer>
@@ -686,19 +629,11 @@
                 <footer class="footer">
                     <ul class="pagination">
                         <li>第
-                            <select> 
+                            <select id="kecheng_select_page"> 
                             </select>
                             页
                         </li>
-                        <li class="gray">
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-left">
-                            </i>
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-right">
-                            </i>
+                        <li class="gray" id="kecheng_total_pages">
                         </li>
                     </ul>
                     </footer>
@@ -718,7 +653,7 @@
                                                 <div class="form-group ">
                                                     <label for="sName" class="col-xs-3 control-label">课程：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="email" class="form-control input-sm duiqi" id="KeCheng_MC" placeholder="">
+                                                        <input type="" class="form-control input-sm duiqi" id="KeCheng_MC" placeholder="">
                                                     </div>
                                                 </div>
                                             </form>
@@ -732,6 +667,69 @@
                                 <!-- /.modal-content -->
                             </div>
                             <!-- /.modal-dialog -->
+                        </div>
+
+                        <!--弹出修改课程窗口-->
+                        <div class="modal fade" id="changeKeCheng" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="gridSystemModalLabel">修改课程</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <form class="form-horizontal">
+                                                <div class="form-group ">
+                                                    <label for="sName" class="col-xs-3 control-label">课程：</label>
+                                                    <div class="col-xs-8 ">
+                                                    <input type="email" class="form-control input-sm duiqi" id="update_KeCheng_MC">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="sOrd" class="col-xs-3 control-label">ID：</label>
+                                                    <div class="col-xs-6">
+                                                    <input type="" class="form-control input-sm duiqi content" id="update_KeCheng_ID">
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
+                                        <button type="button" class="btn btn-xs btn-green" id="updateKeCheng">保 存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--弹出删除课程窗口-->
+                        <div class="modal fade" id="deleteKeCheng" role="dialog" aria-labelledby="gridSystemModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="form-group">
+                                            <label for="sOrd" class="col-xs-3 control-label">ID：</label>
+                                            <div class="col-xs-6">
+                                            <input type="" class="form-control input-sm duiqi content" id="delete_KeCheng_ID">
+                                            </div>
+                                    </div>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            确定要删除该信息？删除后不可恢复！
+                                        </div>  
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
+                                        <button type="button" class="btn btn-xs btn-danger" id="deleleKC">确 定</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
             </div>
 
@@ -764,6 +762,20 @@
                             <!--查看所有学生奖状-->
                             <div class="tablebody" id="XSJZ">
                             </div>
+
+                             <!--页码块-->
+                            <footer class="footer">
+                                <ul class="pagination">
+                                    <li>第
+                                        <select id="jx_select_page">
+                                        </select>
+                                        页
+                                    </li>
+                                    <li class="gray" id="jx_total_pages">
+                                        
+                                    </li>
+                                </ul>
+                            </footer>
                 </div>
             </div>
 
@@ -789,6 +801,21 @@
                             </div>
                             <div class="tablebody" id="HPXZInfo">
                             </div>
+
+                            <!--页码块-->
+                            <footer class="footer">
+                                <ul class="pagination">
+                                    <li>第
+                                        <select id="hpxz_select_page">
+                                            
+                                        </select>
+                                        页
+                                    </li>
+                                    <li class="gray" id="hpxz_total_pages">
+                                        
+                                    </li>
+                                </ul>
+                                </footer>
 
                             <!--弹出添加互评小组窗口-->
                         <div class="modal fade" id="addHPXZ" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -850,13 +877,13 @@
                                                 <div class="form-group ">
                                                     <label class="col-xs-3 control-label">小组名称：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="" class="form-control input-sm duiqi" id="" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_HPXZ_MC" >
                                                     </div>
                                                 </div>
 
                                             <div class="form-group hidden">
                                                 <div class="col-xs-6">
-                                                    <input type="" class="form-control input-sm duiqi content" id="HPXZID">
+                                                    <input type="" class="form-control input-sm duiqi content" id="update_HPXZ_ID">
                                                 </div>
                                             </div>
                                             </form>
@@ -864,7 +891,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-xs btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                        <button type="button" class="btn btn-xs btn-xs btn-green" id="saveHPXZ">保 存</button>
+                                        <button type="button" class="btn btn-xs btn-xs btn-green" id="updateHPXZ">保 存</button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -872,7 +899,7 @@
                             <!-- /.modal-dialog -->
                         </div>
 
-                        <!--弹出互评小组警告窗口-->
+                <!--弹出互评小组删除窗口-->
                 <div class="modal fade" id="deleteHPXZInfo" role="dialog" aria-labelledby="gridSystemModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -884,7 +911,7 @@
                             <div class="form-group hidden">
                                             <label for="sOrd" class="col-xs-3 control-label">ID：</label>
                                             <div class="col-xs-6">
-                                            <input type="" class="form-control input-sm duiqi content" id="">
+                                            <input type="" class="form-control input-sm duiqi content" id="delete_HPXZ_ID">
                                             </div>
                               </div>
 
@@ -895,7 +922,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                <button type="button" class="btn btn-xs btn-danger" id="">确 定</button>
+                                <button type="button" class="btn btn-xs btn-danger" id="deleteHPXZ">确 定</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -913,10 +940,11 @@
                             <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>查看</button>
                             <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addStuInfo">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增</button>
-                            <button class="btn btn-yellow btn-xs">
+                            <button class="btn btn-yellow btn-xs" onclick="$('#import_student_info')[0].click()">
                             <span class="glyphicon glyphicon-import" aria-hidden="true"></span>导入Excel</button>
-                            <button class="btn btn-yellow btn-xs">
+                            <button class="btn btn-yellow btn-xs" id="output_student_info">
                             <span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出Excel</button>
+                            <input type="file" id="import_student_info" hidden="hidden" style="display: none;" />
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
@@ -952,22 +980,14 @@
                 <!--页码块-->
                 <footer class="footer">
                     <ul class="pagination">
-                        <li>
-                            <select>
+                        <li>第
+                            <select id="student_select_page">
                                 
                             </select>
                             页
                         </li>
-                        <li class="gray">
+                        <li class="gray" id="student_total_pages">
                             
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-left">
-                            </i>
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-right">
-                            </i>
                         </li>
                     </ul>
                     </footer>
@@ -1051,50 +1071,50 @@
                                                 <div class="form-group ">
                                                     <label class="col-xs-3 control-label">学号：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuXH">
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_XH">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">姓名：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuXM" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_XM" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">性别：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuXB" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_XB" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">民族：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuMZ" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_MZ" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">出生年月：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuCSNY" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_CSNY" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">班级：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuBJ" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_BJ" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">入学年份：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="StuRXNF" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_Stu_RXNF" >
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="sOrd" class="col-xs-3 control-label">ID：</label>
                                                     <div class="col-xs-6">
-                                                        <input type="" class="form-control input-sm duiqi content" id="update_XSXXID">
+                                                        <input type="" class="form-control input-sm duiqi content" id="update_PFX_ID">
                                                     </div>
                                                 </div>
 
@@ -1103,7 +1123,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                        <button type="button" class="btn btn-xs btn-green" id="">保 存</button>
+                                        <button type="button" class="btn btn-xs btn-green" id="updateStuInfo">保 存</button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -1115,14 +1135,12 @@
                         <div class="modal fade" id="deleteStuInfo" role="dialog" aria-labelledby="gridSystemModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-
                                     <div class="form-group">
                                             <label for="sOrd" class="col-xs-3 control-label">ID：</label>
                                             <div class="col-xs-6">
-                                            <input type="" class="form-control input-sm duiqi content" id=delete_XSXXID"">
+                                            <input type="" class="form-control input-sm duiqi content" id="delete_XSXX_ID">
                                             </div>
                                     </div>
-
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
@@ -1130,16 +1148,14 @@
                                     <div class="modal-body">
                                         <div class="container-fluid">
                                             确定要删除该信息？删除后不可恢复！
-                                        </div>
+                                        </div>  
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                        <button type="button" class="btn btn-xs btn-danger" id="">确 定</button>
+                                        <button type="button" class="btn btn-xs btn-danger" id="deleteStudentInfo">确 定</button>
                                     </div>
                                 </div>
-                                <!-- /.modal-content -->
                             </div>
-                            <!-- /.modal-dialog -->
                         </div>
 
                 </div>
@@ -1154,10 +1170,11 @@
                             <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addTeacherInfo">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
                             </button>
-                            <button class="btn btn-yellow btn-xs">
+                            <button class="btn btn-yellow btn-xs" onclick="$('#import_teacher_info')[0].click()">
                                 <span class="glyphicon glyphicon-import" aria-hidden="true"></span>导入Excel</button>
-                            <button class="btn btn-yellow btn-xs">
+                            <button class="btn btn-yellow btn-xs" id="output_teacher_info">
                             <span class="glyphicon glyphicon-export" aria-hidden="true"></span>导出Excel</button>
+                            <input type="file" id="import_teacher_info" hidden="hidden" style="display: none;" />
                         </div>
                         <div class="data-div">
                             <div class="row tableHeader">
@@ -1183,22 +1200,14 @@
                 <!--页码块-->
                 <footer class="footer">
                     <ul class="pagination">
-                        <li>
-                            <select>
+                        <li>第
+                            <select id="teacher_select_page">
                                 
                             </select>
                             页
                         </li>
-                        <li class="gray">
+                        <li class="gray" id="teacher_total_pages">
                             
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-left">
-                            </i>
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-right">
-                            </i>
                         </li>
                     </ul>
                     </footer>
@@ -1265,32 +1274,32 @@
                                                 <div class="form-group ">
                                                     <label class="col-xs-3 control-label">工号：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="" class="form-control input-sm duiqi" id="TeaGH">
+                                                        <input type="" class="form-control input-sm duiqi" id="update_teacher_GH">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">姓名：</label>
                                                     <div class="col-xs-8 ">
-                                                        <input type="" class="form-control input-sm duiqi" id="TeaXM" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_teacher_XM">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">职位：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="TeaZW" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_teacher_ZW">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-xs-3 control-label">工作年限：</label>
                                                     <div class="col-xs-8">
-                                                        <input type="" class="form-control input-sm duiqi" id="TeaNX" >
+                                                        <input type="" class="form-control input-sm duiqi" id="update_teacher_GZNX">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="sOrd" class="col-xs-3 control-label">ID：</label>
                                                     <div class="col-xs-6">
-                                                        <input type="" class="form-control input-sm duiqi content" id="update_JSXXID">
+                                                    <input type="" class="form-control input-sm duiqi content" id="update_teacher_ID">
                                                     </div>
                                                 </div>
                                             </form>
@@ -1298,7 +1307,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                        <button type="button" class="btn btn-xs btn-green" id="">保 存</button>
+                                        <button type="button" class="btn btn-xs btn-green" id="updateTeacherInfo">保 存</button>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
@@ -1310,32 +1319,27 @@
                         <div class="modal fade" id="deleteTeacherInfo" role="dialog" aria-labelledby="gridSystemModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-
                                     <div class="form-group">
                                             <label for="sOrd" class="col-xs-3 control-label">ID：</label>
                                             <div class="col-xs-6">
-                                            <input type="" class="form-control input-sm duiqi content" id=delete_JSXXID"">
+                                            <input type="" class="form-control input-sm duiqi content" id="delete_teacher_ID">
                                             </div>
                                     </div>
-
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span></button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="container-fluid">
                                             确定要删除该信息？删除后不可恢复！
-                                        </div>
+                                        </div>  
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
-                                        <button type="button" class="btn btn-xs btn-danger" id="">确 定</button>
+                                        <button type="button" class="btn btn-xs btn-danger" id="deleteTeaInfo">确 定</button>
                                     </div>
                                 </div>
-                                <!-- /.modal-content -->
                             </div>
-                            <!-- /.modal-dialog -->
                         </div>
                 </div>
             </div>
@@ -1435,26 +1439,21 @@
                             </div>
                             <div class="tablebody" id="addpingfenxiang">
                             </div>
-                <!--页码块-->
-                <footer class="footer">
-                    <ul class="pagination">
-                        <li>第
-                            <select> 
-                            </select>
-                            页
-                        </li>
-                        <li class="gray">
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-left">
-                            </i>
-                        </li>
-                        <li>
-                            <i class="glyphicon glyphicon-menu-right">
-                            </i>
-                        </li>
-                    </ul>
-                    </footer>
+
+                            <!--页码块-->
+                            <footer class="footer">
+                                <ul class="pagination">
+                                    <li>第
+                                        <select id="pfx_select_page">
+                                            
+                                        </select>
+                                        页
+                                    </li>
+                                    <li class="gray" id="pfx_total_pages">
+                                        
+                                    </li>
+                                </ul>
+                                </footer>
                 </div>
 
                      <!--弹出添加评分项窗口-->
@@ -1489,9 +1488,77 @@
                                         <button type="button" class="btn btn-xs btn-xs btn-green" id="savePFX">保 存</button>
                                     </div>
                                 </div>
-                                <!-- /.modal-content -->
                             </div>
-                            <!-- /.modal-dialog -->
+                        </div>
+
+                        <!--弹出修改评分项窗口-->
+                        <div class="modal fade" id="changePFX" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="gridSystemModalLabel">修改评分项</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <form class="form-horizontal">
+                                                <div class="form-group ">
+                                                    <label for="sName" class="col-xs-3 control-label">名称：</label>
+                                                    <div class="col-xs-8 ">
+                                                    <input type="" class="form-control input-sm duiqi" id="update_PFX_MC">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <label for="sName" class="col-xs-3 control-label">分数：</label>
+                                                    <div class="col-xs-8 ">
+                                                    <input type="" class="form-control input-sm duiqi" id="update_PFX_FS">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="sOrd" class="col-xs-3 control-label">ID：</label>
+                                                    <div class="col-xs-6">
+                                                    <input type="" class="form-control input-sm duiqi content" id="update_PFX_ID">
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
+                                        <button type="button" class="btn btn-xs btn-green" id="updatePFX">保 存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--弹出删除评分项窗口-->
+                        <div class="modal fade" id="deletePFX" role="dialog" aria-labelledby="gridSystemModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="form-group">
+                                            <label for="sOrd" class="col-xs-3 control-label">ID：</label>
+                                            <div class="col-xs-6">
+                                            <input type="" class="form-control input-sm duiqi content" id="delete_PFX_ID">
+                                            </div>
+                                    </div>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            确定要删除该信息？删除后不可恢复！
+                                        </div>  
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
+                                        <button type="button" class="btn btn-xs btn-danger" id="delelePF">确 定</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
             </div>
 

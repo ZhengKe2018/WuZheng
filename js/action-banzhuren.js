@@ -1,10 +1,8 @@
 $(function(){
-
-    var $serverAddr = "http://localhost/zuo/";
-
     /*查看班主任信息*/
     $('#checkBZR').click(function(){
         $("#show_BZR_List").html("");
+        $("#BZR_select_page").empty();
         $.ajax({
                     type: 'get',
                     url:"checkBanZhuRen.php",
@@ -19,8 +17,9 @@ $(function(){
 
                                 for(var index=0;index<obj.length;index++)
                                 {
-                                    var $per_BZR_list = '<div class="row"  id='+obj[index]['id']+'><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">'+obj[index]['BJ']+'</div><div id="topAD" class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><span>'+obj[index]['XJ']+'</span></div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+obj[index]['XM']+'</div><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">'+obj[index]['XSS']+'</div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><button class="btn btn-success btn-xs" data-id='+obj[index]['id']+' data-toggle="modal" data-target="#changeSource"><span class="glyphicon glyphicon-pencil"></span>修改</button><button class="btn btn-danger btn-xs"  data-id='+obj[index]['id']+' data-toggle="modal" data-target="#deleteSource"><span class="glyphicon glyphicon-remove"></span>删除</button></div></div>';
-                                    $('#show_BZR_List').prepend($per_BZR_list);                                            }
+                                    var $per_BZR_list = '<div class="row"  id='+obj[index]['id']+'><div class="col-xs-2">'+obj[index]['BJ']+'</div><div class="col-xs-2"><span>'+obj[index]['XJ']+'</span></div><div class="col-xs-3">'+obj[index]['XM']+'</div><div class="col-xs-3">'+obj[index]['XSS']+'</div><div class="col-xs-2"><button class="btn btn-success btn-xs" data-id='+obj[index]['id']+' data-toggle="modal" data-target="#changeSource"><span class="glyphicon glyphicon-pencil"></span>修改</button><button class="btn btn-danger btn-xs"  data-id='+obj[index]['id']+' data-toggle="modal" data-target="#deleteSource"><span class="glyphicon glyphicon-remove"></span>删除</button></div></div>';
+                                    $('#show_BZR_List').prepend($per_BZR_list);                                            
+                                }
                     }
                 });
             });
@@ -78,6 +77,27 @@ $(function(){
                         alert(data);                     
                     }
                 });
+            });
+
+            /*点击下拉列表获取班主任*/
+            $("#BZR_select_page").change(function(){
+                    var $selectPage = $("#BZR_select_page").find("option:selected").text();
+                    $("#show_BZR_List").html("");
+
+                    $.ajax({
+                    type: 'get',
+                    url:"get_bzr_perpage.php",
+                    data:"selectPage="+$selectPage,
+                    async:true,
+                    success: function (data) { //返回json结果   
+                      var obj = JSON.parse(data); 
+                       for(var index=0;index<obj.length;index++)
+                        {
+                            var $per_BZR_list = '<div class="row"  id='+obj[index]['id']+'><div class="col-xs-2">'+obj[index]['BJ']+'</div><div class="col-xs-2"><span>'+obj[index]['XJ']+'</span></div><div class="col-xs-3">'+obj[index]['XM']+'</div><div class="col-xs-3">'+obj[index]['XSS']+'</div><div class="col-xs-2"><button class="btn btn-success btn-xs" data-id='+obj[index]['id']+' data-toggle="modal" data-target="#changeSource"><span class="glyphicon glyphicon-pencil"></span>修改</button><button class="btn btn-danger btn-xs"  data-id='+obj[index]['id']+' data-toggle="modal" data-target="#deleteSource"><span class="glyphicon glyphicon-remove"></span>删除</button></div></div>';
+                            $('#show_BZR_List').prepend($per_BZR_list);                                            
+                        }
+                    }
+                });                   
             });
 
             /*传递id给修改班主任信息的模态框*/

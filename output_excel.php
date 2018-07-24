@@ -11,12 +11,10 @@ java_sunhui4 | 浏览 8131 次 2014-09-24 14:50
 include 'C:\wamp\www\PHPExcel\Classes\PHPExcel.php' ;
 include 'C:\wamp\www\PHPExcel\Classes\PHPExcel\IOFactory.php';
 
-$name  = $_GET['name'];
-
 $objPHPExcel=new PHPExcel();
 //获得数据 ---一般是从数据库中获得数据
 $data=array(
-0=>array('id'=>2013,'name'=>$name,'age'=>21),
+0=>array('id'=>2013,'name'=>'zhangsan','age'=>21),
 1=>array('id'=>2015,'name'=>'EVA','age'=>21)
 );
 //设置excel列名

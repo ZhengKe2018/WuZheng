@@ -1,9 +1,9 @@
 $(function(){
-	var $serverAddr = "http://localhost/zuo/";
 
 	/*查看任课教师信息*/
      $('#checkTeacher').click(function(){
                 $("#addJS").html("");
+                $("#select_page").empty();
                 $.ajax({
                     type: 'get',
                     url:"checkTeacher.php",
@@ -102,12 +102,11 @@ $(function(){
                                         $('#addJS').prepend($newJS);                
                                 }
                     }
-                });
-                    
+                });                   
             });
 
             /*查看下一页任课教师信息*/
-            $(".next_page_teacher").click(function(){
+/*            $(".next_page_teacher").click(function(){
                 var $max_page = $("#select_page option").length;   //获取最大页数
                 var $check_value = $("#select_page").val();
 
@@ -134,10 +133,10 @@ $(function(){
                                 }
                     }
                 });
-            });
+            });*/
 
             /*查看上一页任课教师信息*/
-            $(".last_page_teacher").click(function(){
+/*            $(".last_page_teacher").click(function(){
                     var $check_value = $("#select_page").val();
 
                     if(parseInt($check_value) > 1)
@@ -163,7 +162,7 @@ $(function(){
                                 }
                     }
                 });
-            });
+            });*/
 
 
             /*传递id给修改任课教师信息的模态框*/
